@@ -17,7 +17,7 @@ class GameEngine:
 
     @property
     def game_field(self) -> GameField:
-        return self.__game_field.copy()
+        return self.__game_field
 
 
     @property
