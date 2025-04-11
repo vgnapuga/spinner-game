@@ -44,16 +44,13 @@ class GameEngine:
                 vertical_matches:list[list[int]] = GameEngine.calculate_vertical_matches(game_field, i, j,
                                                                                          rows, current)
                 if (vertical_matches):
-                    for match in vertical_matches:
-                        match_indexes.append(match)
+                    match_indexes.extend(vertical_matches)
 
                 horizontal_matches:list[list[int]] = GameEngine.calculate_horizontal_matches(game_field, i, j,
                                                                                              cols, current)
                 if (horizontal_matches):
-                    for match in horizontal_matches:
-                        match_indexes.append(match)
+                    match_indexes.extend(horizontal_matches)
 
-        print(match_indexes)
         return match_indexes
 
 
