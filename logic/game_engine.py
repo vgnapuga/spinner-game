@@ -44,13 +44,16 @@ class GameEngine:
                 vertical_matches:list[list[int]] = GameEngine.calculate_vertical_matches(game_field, i, j,
                                                                                          rows, current)
                 if (vertical_matches):
-                    match_indexes.append(match for match in vertical_matches)
+                    for match in vertical_matches:
+                        match_indexes.append(match)
 
                 horizontal_matches:list[list[int]] = GameEngine.calculate_horizontal_matches(game_field, i, j,
                                                                                              cols, current)
-                if (not horizontal_matches):
-                    match_indexes.append(match for match in horizontal_matches)
+                if (horizontal_matches):
+                    for match in horizontal_matches:
+                        match_indexes.append(match)
 
+        print(match_indexes)
         return match_indexes
 
 
@@ -60,15 +63,15 @@ class GameEngine:
         result:list[list[int]] = []
 
         if (row < rows - 1):
-            for i in range(row, row + GameEngine.MAX_BALLS_TO_MATCH - 1):
+            for i in range(row, row + GameEngine.MAX_BALLS_TO_MATCH):
                 if (current == game_field[i][col]):
-                    result.append(game_field[i][col])
+                    result.append([i, col])
                 else:
                     return None
         else:
-            for i in range(row, row + GameEngine.MIN_BALLS_TO_MATCH - 1):
+            for i in range(row, row + GameEngine.MIN_BALLS_TO_MATCH):
                 if (current == game_field[i][col]):
-                    result.append(game_field[i][col])
+                    result.append([i, col])
                 else:
                     return None
                 
@@ -81,15 +84,15 @@ class GameEngine:
         result:list[list[int]] = []
 
         if (col < cols - 1):
-            for i in range(col, col + GameEngine.MAX_BALLS_TO_MATCH - 1):
+            for i in range(col, col + GameEngine.MAX_BALLS_TO_MATCH):
                 if (current == game_field[row][i]):
-                    result.append(game_field[row][i])
+                    result.append([row, i])
                 else:
                     return None
         else:
-            for i in range(col, col + GameEngine.MIN_BALLS_TO_MATCH - 1):
+            for i in range(col, col + GameEngine.MIN_BALLS_TO_MATCH):
                 if (current == game_field[row][i]):
-                    result.append(game_field[row][i])
+                    result.append([row, i])
                 else:
                     return None
                 
