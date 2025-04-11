@@ -5,14 +5,15 @@ from typing import final
 @final
 class GameEngine:
 
-    SCORE_COEFFICIENT = 10
-    MIN_BALLS_TO_MATCH = 3
-    MAX_BALLS_TO_MATCH = 7
+    SCORE_COEFFICIENT:int = 10
+    MIN_BALLS_TO_MATCH:int = 3
+    MAX_BALLS_TO_MATCH:int = 7
 
 
     def __init__(self):
-        self.__game_field = GameField()
+        self.__game_field:GameField = GameField()
         self.__score:int = 0
+        self.__match_indexes:list[list[int]] = self.calculate_match_indexes()
 
 
     @property
@@ -25,14 +26,18 @@ class GameEngine:
         return self.__score
     
 
-    def update_score(self) -> None:
-        match_indexes:list[list[int]] = self.calculate_match_indexes(self.game_field.listed_field)
-        self.__score += len(match_indexes) * self.SCORE_COEFFICIENT
+    @property
+    def match_indexes(self) -> list[list[int]]:
+        return self.__match_indexes
     
 
-    @staticmethod
-    def calculate_match_indexes(game_field:list[list[int]]) -> list[list[int]]:
+    def update_score(self) -> None:
+        self.__score += len(self.match_indexes) * self.SCORE_COEFFICIENT
+    
+
+    def calculate_match_indexes(self) -> list[list[int]]:
         match_indexes:list[list[int]] = []
+        game_field:GameField = self.game_field.listed_field
 
         rows:int = GameField.HEIGHT - GameEngine.MIN_BALLS_TO_MATCH
         cols:int = GameField.WIDTH - GameEngine.MIN_BALLS_TO_MATCH
