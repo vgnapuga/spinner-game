@@ -2,8 +2,7 @@ from logic.game_engine import GameEngine
 
 
 def main() -> None:
-    engine = GameEngine()
-    
+    engine:GameEngine = GameEngine()
 
 
 if (__name__ == "__main__"):

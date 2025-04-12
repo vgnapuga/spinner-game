@@ -16,7 +16,8 @@ class GameEngine:
         self.__game_field:GameField = GameField()
         self.__score:int = 0
         self.__match_indexes:set[tuple[int]] = self.calculate_match_indexes()
-        self.update_score()
+        
+        self.update_all()
 
 
     @property
