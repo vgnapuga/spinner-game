@@ -18,6 +18,13 @@ class GameEngine:
         self.__match_indexes:set[tuple[int]] = self.calculate_match_indexes()
         self.update_score()
 
+    
+    def make_turn(self) -> None:
+        while (self.__match_indexes):
+            self.update_score()
+            self.__game_field.update_field(self.__match_indexes)
+            self.update_match_indexes()
+
 
     @property
     def game_field(self) -> GameField:
@@ -35,10 +42,10 @@ class GameEngine:
     
 
     def update_score(self) -> None:
-        if (not self.match_indexes):
+        if (not self.__match_indexes):
             return
 
-        self.__score += len(self.match_indexes) * self.SCORE_COEFFICIENT
+        self.__score += len(self.__match_indexes) * self.SCORE_COEFFICIENT
 
     
     def update_match_indexes(self) -> None:
@@ -47,7 +54,7 @@ class GameEngine:
 
     def calculate_match_indexes(self) -> set[tuple[int]]:
         match_indexes:set[tuple[int]] = set()
-        game_field:GameField = self.game_field.listed_field
+        game_field:GameField = self.__game_field.listed_field
 
         rows:int = GameField.HEIGHT - GameEngine.MIN_BALLS_TO_MATCH
         cols:int = GameField.WIDTH - GameEngine.MIN_BALLS_TO_MATCH
