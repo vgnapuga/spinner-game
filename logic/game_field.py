@@ -1,6 +1,7 @@
 import random
 
 from typing import final
+from copy import deepcopy
 
 
 @final
@@ -30,8 +31,19 @@ class GameField:
 
     @property
     def listed_field(self) -> list[list[int]]:
-        return self.__field.copy()
+        return deepcopy(self.__field)
 
     
-    def update_field(self, indexes:list[list[int]]) -> None:
-        pass
+    def update_field(self, match_indexes:list[list[int]]) -> None:
+        if (not match_indexes):
+            return
+
+        for part_of_match in match_indexes:
+            row:int = part_of_match[0]
+            col:int = part_of_match[1]
+
+            if (row != 0):
+                for i in range(row, 0, -1):
+                    self.__field[i][col] = self.__field[i - 1][col]
+
+            self.__field[0][col] = random.randint(1, self.COLOR_COUNT)

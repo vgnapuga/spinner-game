@@ -1,5 +1,7 @@
 from logic.game_field import GameField
+
 from typing import final
+from copy import deepcopy
 
 
 @final
@@ -7,13 +9,14 @@ class GameEngine:
 
     SCORE_COEFFICIENT:int = 10
     MIN_BALLS_TO_MATCH:int = 3
-    MAX_BALLS_TO_MATCH:int = 7
+    MAX_BALLS_TO_MATCH:int = 5
 
 
     def __init__(self):
         self.__game_field:GameField = GameField()
         self.__score:int = 0
         self.__match_indexes:list[list[int]] = self.calculate_match_indexes()
+        self.update_score()
 
 
     @property
@@ -28,11 +31,18 @@ class GameEngine:
 
     @property
     def match_indexes(self) -> list[list[int]]:
-        return self.__match_indexes
+        return deepcopy(self.__match_indexes)
     
 
     def update_score(self) -> None:
+        if (not self.match_indexes):
+            return
+
         self.__score += len(self.match_indexes) * self.SCORE_COEFFICIENT
+
+    
+    def update_match_indexes(self) -> None:
+        self.__match_indexes = self.calculate_match_indexes()
     
 
     def calculate_match_indexes(self) -> list[list[int]]:
@@ -69,13 +79,13 @@ class GameEngine:
                 if (current == game_field[i][col]):
                     result.append([i, col])
                 else:
-                    return None
+                    return []
         else:
             for i in range(row, row + GameEngine.MIN_BALLS_TO_MATCH):
                 if (current == game_field[i][col]):
                     result.append([i, col])
                 else:
-                    return None
+                    return []
                 
         return result
     
@@ -90,12 +100,12 @@ class GameEngine:
                 if (current == game_field[row][i]):
                     result.append([row, i])
                 else:
-                    return None
+                    return []
         else:
             for i in range(col, col + GameEngine.MIN_BALLS_TO_MATCH):
                 if (current == game_field[row][i]):
                     result.append([row, i])
                 else:
-                    return None
+                    return []
                 
         return result
