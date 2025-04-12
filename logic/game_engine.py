@@ -18,13 +18,6 @@ class GameEngine:
         self.__match_indexes:set[tuple[int]] = self.calculate_match_indexes()
         self.update_score()
 
-    
-    def make_turn(self) -> None:
-        while (self.__match_indexes):
-            self.update_score()
-            self.__game_field.update_field(self.__match_indexes)
-            self.update_match_indexes()
-
 
     @property
     def game_field(self) -> GameField:
@@ -39,6 +32,34 @@ class GameEngine:
     @property
     def match_indexes(self) -> set[tuple[int]]:
         return deepcopy(self.__match_indexes)
+
+    
+    def make_turn(self, row:int, col:int) -> None:
+        if (not GameEngine.is_valid_turn(row, col)):
+            return
+        
+        game_field:list[list[int]] = self.__game_field.listed_field
+
+        temp_1:int = game_field[row - 1][col]
+        temp_2:int = game_field[row + 1][col]
+
+        game_field[row - 1][col] = game_field[row][col - 1]
+        game_field[row + 1][col] = game_field[row][col + 1]
+
+        game_field[row][col + 1] = temp_1
+        game_field[row][col - 1] = temp_2
+
+
+    @staticmethod
+    def is_valid_turn(row:int, col:int) -> bool:
+        return ((row and col) < GameField.HEIGHT - 1) and ((row and col) > 0)
+
+
+    def update_all(self) -> None:
+        while (self.__match_indexes):
+            self.update_score()
+            self.__game_field.update_field(self.__match_indexes)
+            self.update_match_indexes()
     
 
     def update_score(self) -> None:
