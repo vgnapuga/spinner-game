@@ -15,7 +15,7 @@ class GameEngine:
     def __init__(self):
         self.__game_field:GameField = GameField()
         self.__score:int = 0
-        self.__match_indexes:list[list[int]] = self.calculate_match_indexes()
+        self.__match_indexes:set[tuple[int]] = self.calculate_match_indexes()
         self.update_score()
 
 
@@ -30,7 +30,7 @@ class GameEngine:
     
 
     @property
-    def match_indexes(self) -> list[list[int]]:
+    def match_indexes(self) -> set[tuple[int]]:
         return deepcopy(self.__match_indexes)
     
 
@@ -45,8 +45,8 @@ class GameEngine:
         self.__match_indexes = self.calculate_match_indexes()
     
 
-    def calculate_match_indexes(self) -> list[list[int]]:
-        match_indexes:list[list[int]] = []
+    def calculate_match_indexes(self) -> set[tuple[int]]:
+        match_indexes:set[tuple[int]] = set()
         game_field:GameField = self.game_field.listed_field
 
         rows:int = GameField.HEIGHT - GameEngine.MIN_BALLS_TO_MATCH
@@ -59,12 +59,14 @@ class GameEngine:
                 vertical_matches:list[list[int]] = GameEngine.calculate_vertical_matches(game_field, i, j,
                                                                                          rows, current)
                 if (vertical_matches):
-                    match_indexes.extend(vertical_matches)
+                    for match in vertical_matches:
+                        match_indexes.add((match[0], match[1]))
 
                 horizontal_matches:list[list[int]] = GameEngine.calculate_horizontal_matches(game_field, i, j,
                                                                                              cols, current)
                 if (horizontal_matches):
-                    match_indexes.extend(horizontal_matches)
+                    for match in horizontal_matches:
+                        match_indexes.add((match[0], match[1]))
 
         return match_indexes
 
