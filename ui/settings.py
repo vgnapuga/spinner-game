@@ -1,10 +1,12 @@
+from typing import Callable
+
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QCheckBox
 
 
 class Settings(QWidget):
 
-    def __init__(self):
-        super.__init__()
+    def __init__(self, back_callback:Callable):
+        super().__init__()
 
         self.setWindowTitle("Настройки")
 
@@ -15,7 +17,7 @@ class Settings(QWidget):
         self.button_back = QPushButton("Назад")
 
         self.button_apply.clicked.connect(self.apply_changes)
-        self.button_back.clicked.connect(self.close)
+        self.button_back.clicked.connect(back_callback)
 
         self.lyt = QVBoxLayout()
         self.lyt.addWidget(self.checkbox_time_limit)

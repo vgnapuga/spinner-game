@@ -1,10 +1,12 @@
+from typing import Callable
+
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton
 
 
 class MainMenu(QWidget):
     
-    def __init__(self, start_game_callback, settings_callback):
-        super.__init__()
+    def __init__(self, start_game_callback:Callable, settings_callback:Callable, quit_callback:Callable):
+        super().__init__()
 
         self.setWindowTitle("Главное меню")
 
@@ -14,7 +16,7 @@ class MainMenu(QWidget):
 
         self.start_button.clicked.connect(start_game_callback)
         self.settings_button.clicked.connect(settings_callback)
-        self.quit_button.clicked.connect(self.close)
+        self.quit_button.clicked.connect(quit_callback)
 
         self.lyt = QVBoxLayout()
         self.lyt.addWidget(self.start_button)
