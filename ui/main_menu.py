@@ -5,7 +5,8 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton
 
 class MainMenu(QWidget):
     
-    def __init__(self, start_game_callback:Callable, settings_callback:Callable, quit_callback:Callable):
+    def __init__(self, start_game_callback:Callable,
+                 settings_callback:Callable, quit_callback:Callable):
         super().__init__()
 
         self.setWindowTitle("Главное меню")
