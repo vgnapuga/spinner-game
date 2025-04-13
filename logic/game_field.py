@@ -7,26 +7,15 @@ from copy import deepcopy
 @final
 class GameField:
 
-    HEIGHT:int = 10
-    WIDTH:int = 10
+    SIZE:int = 10
     COLOR_COUNT:int = 8
 
 
     def __init__(self):
         self.__field = [
-            [random.randint(1, GameField.COLOR_COUNT) for i in range(GameField.HEIGHT)]
-            for j in range(GameField.WIDTH)
+            [random.randint(1, GameField.COLOR_COUNT) for i in range(GameField.SIZE)]
+            for j in range(GameField.SIZE)
         ]
-
-
-    @property
-    def height(self) -> int:
-        return self.HEIGHT
-
-
-    @property
-    def width(self) -> int:
-        return self.WIDTH
 
 
     @property

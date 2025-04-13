@@ -53,7 +53,7 @@ class GameEngine:
 
     @staticmethod
     def is_valid_turn(row:int, col:int) -> bool:
-        return ((row and col) < GameField.HEIGHT - 1) and ((row and col) > 0)
+        return ((row and col) < GameField.SIZE - 1) and ((row and col) > 0)
 
 
     def update_all(self) -> None:
@@ -78,8 +78,8 @@ class GameEngine:
         match_indexes:set[tuple[int]] = set()
         game_field:GameField = self.__game_field.listed_field
 
-        rows:int = GameField.HEIGHT - GameEngine.MIN_BALLS_TO_MATCH
-        cols:int = GameField.WIDTH - GameEngine.MIN_BALLS_TO_MATCH
+        rows:int = GameField.SIZE - GameEngine.MIN_BALLS_TO_MATCH
+        cols:int = GameField.SIZE - GameEngine.MIN_BALLS_TO_MATCH
 
         for i in range(rows):
             for j in range(cols):
