@@ -8,8 +8,6 @@ from ui.controller.game_ui_manager import GameUIManager
 
 
 def main() -> None:
-    set_env_var()
-
     engine:GameEngine = GameEngine()
 
     app = QApplication(sys.argv)
@@ -18,13 +16,10 @@ def main() -> None:
     sys.exit(app.exec_())
 
 
-def set_env_var() -> None:
-    os.environ["QT_QPA_PLATFORM_PLUGIN_PATH"] = ".venv/lib/python3.12/site-packages/PyQt5/Qt5/plugins"
-
-
 def quit_application() -> None:
     QApplication.quit()
 
 
 if (__name__ == "__main__"):
+    os.environ["QT_QPA_PLATFORM_PLUGIN_PATH"] = ".venv/lib/python3.12/site-packages/PyQt5/Qt5/plugins"
     main()

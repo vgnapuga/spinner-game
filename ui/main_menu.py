@@ -9,8 +9,6 @@ class MainMenu(QWidget):
                  settings_callback:Callable, quit_callback:Callable):
         super().__init__()
 
-        self.setWindowTitle("Главное меню")
-
         self.start_button = QPushButton("Начать игру")
         self.settings_button = QPushButton("Настройки")
         self.quit_button = QPushButton("Выход")
