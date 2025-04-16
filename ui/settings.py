@@ -72,7 +72,7 @@ class Settings(QWidget):
 
     @staticmethod
     def read_settings_from_file() -> dict[str, bool]:
-        settings:dict[str, bool] = dict()
+        settings:dict[str, bool] = {}
 
         try:
             with open(Settings.SETTINGS_FILE_PATH, "r") as file:
@@ -82,6 +82,7 @@ class Settings(QWidget):
         except FileNotFoundError:
             with open(Settings.SETTINGS_FILE_PATH, "x") as file:
                 file.write(f"time_limit:False\nturn_limit:False")
+                settings = {"time_limit":False, "turn_limit":False}
 
         return settings
 
