@@ -18,7 +18,7 @@ class GameUIManager(QStackedWidget):
         self.menu = MainMenu(start_game_callback=self.start_game,
                              settings_callback=self.open_settings,
                              quit_callback=quit_callback)
-        self.game = GameView()
+        self.game = GameView(back_callback=self.back_to_menu)
         self.settings = Settings(back_callback=self.back_to_menu)
 
         self.addWidget(self.menu)
