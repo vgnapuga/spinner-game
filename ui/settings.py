@@ -14,12 +14,18 @@ class Settings(QWidget):
 
         self.__is_time_limit:bool = Settings.get_parameter_from_file("time_limit")
         self.__is_turn_limit:bool = Settings.get_parameter_from_file("turn_limit")
-        self.initiate_check_boxes()
+        self.setup_check_boxes()
 
-        self.initiate_buttons(back_callback)
+        self.setup_buttons(back_callback)
 
         self.lyt:QVBoxLayout = QVBoxLayout()
+        self.lyt.addSpacing(10)
+        self.lyt.setContentsMargins(200, 200, 200, 200)
+
         for widget in self.__widgets:
+            widget.setFixedHeight(80)
+            widget.setStyleSheet("font-size: 30px;")
+            
             self.lyt.addWidget(widget)
 
         self.setLayout(self.lyt)
@@ -35,7 +41,7 @@ class Settings(QWidget):
         return self.__is_turn_limit
 
 
-    def initiate_check_boxes(self) -> None:
+    def setup_check_boxes(self) -> None:
         self.check_box_time_limit:QCheckBox = QCheckBox("Ограничение по времени")
         self.check_box_turn_limit:QCheckBox = QCheckBox("Ограничение по ходам")
 
@@ -46,7 +52,7 @@ class Settings(QWidget):
         self.__widgets.append(self.check_box_turn_limit)
 
 
-    def initiate_buttons(self, back_callback:Callable) -> None:
+    def setup_buttons(self, back_callback:Callable) -> None:
         self.button_apply:QPushButton = QPushButton("Применить")
         self.button_back:QPushButton = QPushButton("Назад")
 

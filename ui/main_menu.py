@@ -20,6 +20,7 @@ class MainMenu(QWidget):
         for widget in self.__widgets:
             widget.setFixedHeight(80)
             widget.setStyleSheet("font-size: 30px;")
+            
             self.lyt.addWidget(widget)
 
         self.setLayout(self.lyt)
