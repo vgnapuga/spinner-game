@@ -27,12 +27,12 @@ class GameUIManager(QStackedWidget):
 
 
     def start_game(self) -> None:
-        self.menu.hide()
+        self.currentWidget().hide()
         self.setCurrentWidget(self.game)
 
 
     def open_settings(self) -> None:
-        self.menu.hide()
+        self.currentWidget().hide()
         self.setCurrentWidget(self.settings)
 
     

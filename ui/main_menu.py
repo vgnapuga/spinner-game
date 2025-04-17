@@ -13,28 +13,27 @@ class MainMenu(QWidget):
 
         self.setup_buttons(start_game_callback, settings_callback, quit_callback)
 
-        self.lyt:QVBoxLayout = QVBoxLayout()
-        self.lyt.setSpacing(10)
-        self.lyt.setContentsMargins(200, 200, 200, 200)
+        layout:QVBoxLayout = QVBoxLayout()
+        layout.setContentsMargins(200, 200, 200, 200)
 
         for widget in self.__widgets:
             widget.setFixedHeight(80)
             widget.setStyleSheet("font-size: 30px;")
             
-            self.lyt.addWidget(widget)
+            layout.addWidget(widget)
 
-        self.setLayout(self.lyt)
+        self.setLayout(layout)
 
     def setup_buttons(self, start_game_callback:Callable,
                          settings_callback:Callable, quit_callback:Callable) -> None:
-        self.start_button:QPushButton = QPushButton("Начать игру")
-        self.settings_button:QPushButton = QPushButton("Настройки")
-        self.quit_button:QPushButton = QPushButton("Выход")
+        start_button:QPushButton = QPushButton("Начать игру")
+        settings_button:QPushButton = QPushButton("Настройки")
+        quit_button:QPushButton = QPushButton("Выход")
 
-        self.start_button.clicked.connect(start_game_callback)
-        self.settings_button.clicked.connect(settings_callback)
-        self.quit_button.clicked.connect(quit_callback)
+        start_button.clicked.connect(start_game_callback)
+        settings_button.clicked.connect(settings_callback)
+        quit_button.clicked.connect(quit_callback)
 
-        self.__widgets.append(self.start_button)
-        self.__widgets.append(self.settings_button)
-        self.__widgets.append(self.quit_button)
+        self.__widgets.append(start_button)
+        self.__widgets.append(settings_button)
+        self.__widgets.append(quit_button)
