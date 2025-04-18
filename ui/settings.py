@@ -7,7 +7,7 @@ class Settings(QWidget):
 
     SETTINGS_FILE_PATH:str = "settings.txt"
 
-    def __init__(self, back_callback:Callable):
+    def __init__(self, menu_callback:Callable):
         super().__init__()
 
         self.__widgets:list[QWidget] = []
@@ -16,7 +16,7 @@ class Settings(QWidget):
         self.__is_turn_limit:bool = Settings.get_parameter_from_file("turn_limit")
         
         self.setup_check_boxes()
-        self.setup_buttons(back_callback)
+        self.setup_buttons(menu_callback)
 
         layout:QVBoxLayout = QVBoxLayout()
         layout.setContentsMargins(200, 200, 200, 200)
@@ -51,12 +51,12 @@ class Settings(QWidget):
         self.__widgets.append(self.check_box_turn_limit)
 
 
-    def setup_buttons(self, back_callback:Callable) -> None:
+    def setup_buttons(self, menu_callback:Callable) -> None:
         button_apply:QPushButton = QPushButton("Применить")
         button_back:QPushButton = QPushButton("Назад")
 
         button_apply.clicked.connect(self.apply_changes)
-        button_back.clicked.connect(back_callback)
+        button_back.clicked.connect(menu_callback)
 
         self.__widgets.append(button_apply)
         self.__widgets.append(button_back)

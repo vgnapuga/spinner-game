@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QStackedWidget
 from ui.main_menu import MainMenu
 from ui.game_view import GameView
 from ui.settings import Settings
+from ui.pause_view import PauseView
 
 
 class GameUIManager(QStackedWidget):
@@ -18,11 +19,15 @@ class GameUIManager(QStackedWidget):
         self.menu = MainMenu(start_game_callback=self.start_game,
                              settings_callback=self.open_settings,
                              quit_callback=quit_callback)
-        self.game = GameView(back_callback=self.back_to_menu)
-        self.settings = Settings(back_callback=self.back_to_menu)
+        
+        self.game = GameView(pause_callback=self.open_pause)
+        self.pause = PauseView(back=self.back_to_game, menu_callback=self.back_to_menu)
+
+        self.settings = Settings(menu_callback=self.back_to_menu)
 
         self.addWidget(self.menu)
         self.addWidget(self.game)
+        self.addWidget(self.pause)
         self.addWidget(self.settings)
 
 
@@ -39,3 +44,12 @@ class GameUIManager(QStackedWidget):
     def back_to_menu(self) -> None:
         self.currentWidget().hide()
         self.setCurrentWidget(self.menu)
+
+
+    def open_pause(self) -> None:
+        self.currentWidget().hide()
+        self.setCurrentWidget(self.pause)
+
+    def back_to_game(self) -> None:
+        self.currentWidget().hide()
+        self.setCurrentWidget(self.game)
