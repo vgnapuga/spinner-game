@@ -5,15 +5,15 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton
 
 class MainMenu(QWidget):
     
-    def __init__(self, start_game_callback:Callable,
-                 settings_callback:Callable, quit_callback:Callable):
+    def __init__(self, start_game_callback: Callable,
+                 settings_callback: Callable, quit_callback: Callable):
         super().__init__()
 
-        self.__widgets:list[QWidget] = []
+        self.__widgets: list[QWidget] = []
 
         self.setup_buttons(start_game_callback, settings_callback, quit_callback)
 
-        layout:QVBoxLayout = QVBoxLayout()
+        layout: QVBoxLayout = QVBoxLayout()
         layout.setContentsMargins(200, 200, 200, 200)
 
         for widget in self.__widgets:
@@ -24,11 +24,11 @@ class MainMenu(QWidget):
 
         self.setLayout(layout)
 
-    def setup_buttons(self, start_game_callback:Callable,
-                         settings_callback:Callable, quit_callback:Callable) -> None:
-        start_button:QPushButton = QPushButton("Начать игру")
-        settings_button:QPushButton = QPushButton("Настройки")
-        quit_button:QPushButton = QPushButton("Выход")
+    def setup_buttons(self, start_game_callback: Callable,
+                         settings_callback: Callable, quit_callback: Callable) -> None:
+        start_button: QPushButton = QPushButton("Начать игру")
+        settings_button: QPushButton = QPushButton("Настройки")
+        quit_button: QPushButton = QPushButton("Выход")
 
         start_button.clicked.connect(start_game_callback)
         settings_button.clicked.connect(settings_callback)

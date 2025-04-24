@@ -10,7 +10,7 @@ from ui.pause_view import PauseView
 
 class GameUIManager(QStackedWidget):
 
-    def __init__(self, quit_callback:Callable):
+    def __init__(self, quit_callback: Callable):
         super().__init__()
 
         self.setFixedSize(1920, 1080)
@@ -49,6 +49,7 @@ class GameUIManager(QStackedWidget):
     def open_pause(self) -> None:
         self.currentWidget().hide()
         self.setCurrentWidget(self.pause)
+
 
     def back_to_game(self) -> None:
         self.currentWidget().hide()

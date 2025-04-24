@@ -5,20 +5,20 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QCheckBox
 
 class Settings(QWidget):
 
-    SETTINGS_FILE_PATH:str = "settings.txt"
+    SETTINGS_FILE_PATH: str = "settings.txt"
 
-    def __init__(self, menu_callback:Callable):
+    def __init__(self, menu_callback: Callable):
         super().__init__()
 
-        self.__widgets:list[QWidget] = []
+        self.__widgets: list[QWidget] = []
 
-        self.__is_time_limit:bool = Settings.get_parameter_from_file("time_limit")
-        self.__is_turn_limit:bool = Settings.get_parameter_from_file("turn_limit")
+        self.__is_time_limit: bool = Settings.get_parameter_from_file("time_limit")
+        self.__is_turn_limit: bool = Settings.get_parameter_from_file("turn_limit")
         
         self.setup_check_boxes()
         self.setup_buttons(menu_callback)
 
-        layout:QVBoxLayout = QVBoxLayout()
+        layout: QVBoxLayout = QVBoxLayout()
         layout.setContentsMargins(200, 200, 200, 200)
 
         for widget in self.__widgets:
@@ -41,8 +41,8 @@ class Settings(QWidget):
 
 
     def setup_check_boxes(self) -> None:
-        self.check_box_time_limit:QCheckBox = QCheckBox("Ограничение по времени")
-        self.check_box_turn_limit:QCheckBox = QCheckBox("Ограничение по ходам")
+        self.check_box_time_limit: QCheckBox = QCheckBox("Ограничение по времени")
+        self.check_box_turn_limit: QCheckBox = QCheckBox("Ограничение по ходам")
 
         self.check_box_time_limit.setChecked(self.__is_time_limit)
         self.check_box_turn_limit.setChecked(self.__is_turn_limit)
@@ -51,9 +51,9 @@ class Settings(QWidget):
         self.__widgets.append(self.check_box_turn_limit)
 
 
-    def setup_buttons(self, menu_callback:Callable) -> None:
-        button_apply:QPushButton = QPushButton("Применить")
-        button_back:QPushButton = QPushButton("Назад")
+    def setup_buttons(self, menu_callback: Callable) -> None:
+        button_apply: QPushButton = QPushButton("Применить")
+        button_back: QPushButton = QPushButton("Назад")
 
         button_apply.clicked.connect(self.apply_changes)
         button_back.clicked.connect(menu_callback)
@@ -70,14 +70,14 @@ class Settings(QWidget):
 
 
     @staticmethod
-    def get_parameter_from_file(parameter:str) -> bool:
-        settings:set[tuple[str, bool]] = Settings.read_settings_from_file()
+    def get_parameter_from_file(parameter: str) -> bool:
+        settings: set[tuple[str, bool]] = Settings.read_settings_from_file()
         return settings[parameter]
 
 
     @staticmethod
     def read_settings_from_file() -> dict[str, bool]:
-        settings:dict[str, bool] = {}
+        settings: dict[str, bool] = {}
 
         try:
             with open(Settings.SETTINGS_FILE_PATH, "r") as file:

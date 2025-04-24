@@ -7,8 +7,8 @@ from copy import deepcopy
 @final
 class GameField:
 
-    SIZE:int = 10
-    COLOR_COUNT:int = 8
+    SIZE: int = 10
+    COLOR_COUNT: int = 8
 
 
     def __init__(self):
@@ -23,13 +23,13 @@ class GameField:
         return deepcopy(self.__field)
 
     
-    def update_field(self, match_indexes:list[list[int]]) -> None:
+    def update_field(self, match_indexes: list[list[int]]) -> None:
         if (not match_indexes):
             return
 
         for part_of_match in match_indexes:
-            row:int = part_of_match[0]
-            col:int = part_of_match[1]
+            row: int = part_of_match[0]
+            col: int = part_of_match[1]
 
             if (row != 0):
                 for i in range(row, 0, -1):
