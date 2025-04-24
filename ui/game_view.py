@@ -18,6 +18,8 @@ class GameView(QWidget):
         self.setup_table()
         self.setup_buttons(pause_callback)
 
+        self.render_field()
+
         layout = QHBoxLayout()
         layout.setContentsMargins(500, 0, 420, 8)
 
@@ -45,7 +47,30 @@ class GameView(QWidget):
             table.setColumnWidth(i, 90)
             table.setRowHeight(i, 90)
 
+        table.cellClicked.connect(self.handle_cell_click)
+
         self.__widgets.append(table)
+
+
+    def render_field(self) -> None:
+        table:QTableWidget = self.__widgets[0]
+        game_field:list[list[int]] = self.engine.game_field.listed_field
+
+        for i in range(GameField.SIZE):
+            for j in range(GameField.SIZE):
+                item:QTableWidgetItem = QTableWidgetItem(str(game_field[i][j]))
+
+                item.setTextAlignment(Qt.AlignCenter)
+                item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+
+                table.setItem(i, j, item)
+
+
+    def handle_cell_click(self, row:int, col:int) -> None:
+        self.engine.make_turn(row, col)
+        self.engine.update_all()
+        self.render_field()
+
 
     def setup_buttons(self, pause_callback:Callable) -> None:
         button_pause:QPushButton = QPushButton("П\nа\nу\nз\nа")

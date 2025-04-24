@@ -8,8 +8,6 @@ from ui.controller.game_ui_manager import GameUIManager
 
 
 def main() -> None:
-    engine:GameEngine = GameEngine()
-
     app = QApplication(sys.argv)
     window = GameUIManager(quit_callback=quit_application)
     window.show()
