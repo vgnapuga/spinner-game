@@ -32,23 +32,21 @@ class GameEngine:
 
     @property
     def match_indexes(self) -> set[tuple[int]]:
-        return deepcopy(self.__match_indexes)
+        return [row[:] for row in self.__match_indexes]
 
 
     def make_turn(self, row:int, col:int) -> None:
         if (not GameEngine.is_valid_turn(row, col)):
             return
 
-        game_field: list[list[int]] = self.game_field
+        temp_1: int = self.__game_field.listed_field[row - 1][col]
+        temp_2: int = self.__game_field.listed_field[row + 1][col]
 
-        temp_1: int = game_field[row - 1][col]
-        temp_2: int = game_field[row + 1][col]
+        self.__game_field.set_cell(row - 1, col, self.__game_field.listed_field[row][col - 1])
+        self.__game_field.set_cell(row + 1, col, self.__game_field.listed_field[row][col + 1])
 
-        game_field[row - 1][col] = game_field[row][col - 1]
-        game_field[row + 1][col] = game_field[row][col + 1]
-
-        game_field[row][col + 1] = temp_1
-        game_field[row][col - 1] = temp_2
+        self.__game_field.set_cell(row, col + 1, temp_1)
+        self.__game_field.set_cell(row, col - 1, temp_2)
 
         self.update_all()
 
@@ -78,22 +76,21 @@ class GameEngine:
 
     def calculate_match_indexes(self) -> set[tuple[int]]:
         match_indexes: set[tuple[int]] = set()
-        game_field: list[list[int]] = self.game_field
 
         rows: int = GameField.SIZE - GameEngine.MIN_BALLS_TO_MATCH
         cols: int = GameField.SIZE - GameEngine.MIN_BALLS_TO_MATCH
 
         for i in range(rows):
             for j in range(cols):
-                current: int = game_field[i][j]
+                current: int = self.__game_field.listed_field[i][j]
 
-                vertical_matches: list[list[int]] = GameEngine.calculate_vertical_matches(game_field, i, j,
+                vertical_matches: list[list[int]] = GameEngine.calculate_vertical_matches(self.__game_field.listed_field, i, j,
                                                                                          rows, current)
                 if (vertical_matches):
                     for match in vertical_matches:
                         match_indexes.add((match[0], match[1]))
 
-                horizontal_matches: list[list[int]] = GameEngine.calculate_horizontal_matches(game_field, i, j,
+                horizontal_matches: list[list[int]] = GameEngine.calculate_horizontal_matches(self.__game_field.listed_field, i, j,
                                                                                              cols, current)
                 if (horizontal_matches):
                     for match in horizontal_matches:

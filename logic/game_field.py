@@ -1,7 +1,6 @@
 import random
 
 from typing import final
-from copy import deepcopy
 
 
 @final
@@ -20,7 +19,11 @@ class GameField:
 
     @property
     def listed_field(self) -> list[list[int]]:
-        return self.__field
+        return [row[:] for row in self.__field]
+    
+
+    def set_cell(self, row: int, col: int, value: int) -> None:
+        self.__field[row][col] = value
 
 
     def update_field(self, match_indexes: list[list[int]]) -> None:
