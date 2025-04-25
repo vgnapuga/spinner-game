@@ -20,9 +20,9 @@ class GameField:
 
     @property
     def listed_field(self) -> list[list[int]]:
-        return deepcopy(self.__field)
+        return self.__field
 
-    
+
     def update_field(self, match_indexes: list[list[int]]) -> None:
         if (not match_indexes):
             return

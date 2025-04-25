@@ -19,7 +19,7 @@ class GameUIManager(QStackedWidget):
         self.menu = MainMenu(start_game_callback=self.start_game,
                              settings_callback=self.open_settings,
                              quit_callback=quit_callback)
-        
+
         self.game = GameView(pause_callback=self.open_pause)
         self.pause = PauseView(back=self.back_to_game, menu_callback=self.back_to_menu)
 
@@ -40,7 +40,7 @@ class GameUIManager(QStackedWidget):
         self.currentWidget().hide()
         self.setCurrentWidget(self.settings)
 
-    
+
     def back_to_menu(self) -> None:
         self.currentWidget().hide()
         self.setCurrentWidget(self.menu)

@@ -31,7 +31,7 @@ class GameView(QWidget):
             layout.addWidget(widget)
 
         self.setLayout(layout)
-        
+
 
     def setup_table(self) -> None:
         size: int = GameField.SIZE
@@ -68,7 +68,7 @@ class GameView(QWidget):
         }
 
         table: QTableWidget = self.__widgets[0]
-        game_field: list[list[int]] = self.engine.game_field.listed_field
+        game_field: list[list[int]] = self.engine.game_field
 
         for i in range(GameField.SIZE): 
             for j in range(GameField.SIZE): 
@@ -89,7 +89,7 @@ class GameView(QWidget):
     def setup_buttons(self, pause_callback: Callable) -> None:
         button_pause: QPushButton = QPushButton("П\nа\nу\nз\nа")
         button_pause.clicked.connect(pause_callback)
-        
+
         button_pause.setFixedHeight(900)
         button_pause.setFixedWidth(80)
 

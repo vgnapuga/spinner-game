@@ -16,30 +16,30 @@ class GameEngine:
         self.__game_field: GameField = GameField()
         self.__score: int = 0
         self.__match_indexes: set[tuple[int]] = self.calculate_match_indexes()
-        
+
         self.update_all()
 
 
     @property
     def game_field(self) -> GameField:
-        return self.__game_field
+        return self.__game_field.listed_field
 
 
     @property
     def score(self) -> int:
         return self.__score
-    
+
 
     @property
     def match_indexes(self) -> set[tuple[int]]:
         return deepcopy(self.__match_indexes)
 
-    
+
     def make_turn(self, row:int, col:int) -> None:
         if (not GameEngine.is_valid_turn(row, col)):
             return
-        
-        game_field: list[list[int]] = self.__game_field.listed_field
+
+        game_field: list[list[int]] = self.game_field
 
         temp_1: int = game_field[row - 1][col]
         temp_2: int = game_field[row + 1][col]
@@ -49,6 +49,8 @@ class GameEngine:
 
         game_field[row][col + 1] = temp_1
         game_field[row][col - 1] = temp_2
+
+        self.update_all()
 
 
     @staticmethod
@@ -61,7 +63,7 @@ class GameEngine:
             self.update_score()
             self.__game_field.update_field(self.__match_indexes)
             self.update_match_indexes()
-    
+
 
     def update_score(self) -> None:
         if (not self.__match_indexes):
@@ -69,14 +71,14 @@ class GameEngine:
 
         self.__score += len(self.__match_indexes) * self.SCORE_COEFFICIENT
 
-    
+
     def update_match_indexes(self) -> None:
         self.__match_indexes = self.calculate_match_indexes()
-    
+
 
     def calculate_match_indexes(self) -> set[tuple[int]]:
         match_indexes: set[tuple[int]] = set()
-        game_field: GameField = self.__game_field.listed_field
+        game_field: list[list[int]] = self.game_field
 
         rows: int = GameField.SIZE - GameEngine.MIN_BALLS_TO_MATCH
         cols: int = GameField.SIZE - GameEngine.MIN_BALLS_TO_MATCH
@@ -118,9 +120,9 @@ class GameEngine:
                     result.append([i, col])
                 else:
                     return []
-                
+
         return result
-    
+
 
     @staticmethod
     def calculate_horizontal_matches(game_field: list[list[int]],
@@ -140,5 +142,5 @@ class GameEngine:
                     result.append([row, i])
                 else:
                     return []
-                
+
         return result

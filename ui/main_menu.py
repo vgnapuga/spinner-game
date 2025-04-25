@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton
 
 
 class MainMenu(QWidget):
-    
+
     def __init__(self, start_game_callback: Callable,
                  settings_callback: Callable, quit_callback: Callable):
         super().__init__()
@@ -19,7 +19,7 @@ class MainMenu(QWidget):
         for widget in self.__widgets:
             widget.setFixedHeight(80)
             widget.setStyleSheet("font-size: 30px;")
-            
+
             layout.addWidget(widget)
 
         self.setLayout(layout)

@@ -14,7 +14,7 @@ class Settings(QWidget):
 
         self.__is_time_limit: bool = Settings.get_parameter_from_file("time_limit")
         self.__is_turn_limit: bool = Settings.get_parameter_from_file("turn_limit")
-        
+
         self.setup_check_boxes()
         self.setup_buttons(menu_callback)
 
@@ -24,7 +24,7 @@ class Settings(QWidget):
         for widget in self.__widgets:
             widget.setFixedHeight(80)
             widget.setStyleSheet("font-size: 30px;")
-            
+
             layout.addWidget(widget)
 
         self.setLayout(layout)
@@ -33,7 +33,7 @@ class Settings(QWidget):
     @property
     def is_time_limit(self) -> bool:
         return self.__is_time_limit
-    
+
 
     @property
     def is_turn_limit(self) -> bool:

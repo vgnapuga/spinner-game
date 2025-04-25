@@ -3,7 +3,6 @@ import os
 
 from PyQt5.QtWidgets import QApplication
 
-from logic.game_engine import GameEngine
 from ui.controller.game_ui_manager import GameUIManager
 
 
