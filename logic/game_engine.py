@@ -90,6 +90,7 @@ class GameEngine:
         return match_indexes
 
 
+    # FIXME: recalculating same matches
     @staticmethod
     def calculate_horizontal_matches(field: list[list[int]],
                                      row: int, size: int) -> set[tuple[int, int]]:
@@ -116,6 +117,7 @@ class GameEngine:
         return matches
     
 
+    # FIXME: recalculating same matches
     @staticmethod
     def calculate_vertical_matches(field: list[list[int]],
                                    col: int, size: int) -> set[tuple[int, int]]:
