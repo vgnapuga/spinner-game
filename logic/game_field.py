@@ -26,7 +26,7 @@ class GameField:
         self.__field[row][col] = value
 
 
-    def update_field(self, match_indexes: list[list[int]]) -> None:
+    def update_field(self, match_indexes: set[tuple[int]]) -> None:
         if (not match_indexes):
             return
 

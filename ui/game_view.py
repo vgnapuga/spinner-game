@@ -72,7 +72,7 @@ class GameView(QWidget):
 
         for i in range(GameField.SIZE): 
             for j in range(GameField.SIZE): 
-                item: QTableWidgetItem = QTableWidgetItem(game_field[i][j])
+                item: QTableWidgetItem = QTableWidgetItem()
 
                 item.setBackground(QColor(colors[game_field[i][j]]))
                 item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
@@ -82,7 +82,6 @@ class GameView(QWidget):
 
     def handle_cell_click(self, row: int, col: int) -> None:
         self.engine.make_turn(row, col)
-        self.engine.update_all()
         self.render_field()
 
 
