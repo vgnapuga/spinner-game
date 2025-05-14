@@ -55,7 +55,7 @@ class GameView(QWidget):
 
 
     def render_field(self) -> None:
-        colors: dict[int: str] = {
+        colors: dict[int, str] = {
             0: "#FFFFFF",
             1: "#FF0000",
             2: "#00FF00",

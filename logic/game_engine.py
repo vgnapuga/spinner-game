@@ -14,7 +14,7 @@ class GameEngine:
     def __init__(self):
         self.__game_field: GameField = GameField()
         self.__score: int = 0
-        self.__match_indexes: set[tuple[int]] = self.calculate_match_indexes()
+        self.__match_indexes: set[tuple[int, int]] = self.calculate_match_indexes()
 
         self.update_all()
 
@@ -30,7 +30,7 @@ class GameEngine:
 
 
     @property
-    def match_indexes(self) -> set[tuple[int]]:
+    def match_indexes(self) -> set[tuple[int, int]]:
         return self.__match_indexes.copy()
 
 
@@ -90,55 +90,47 @@ class GameEngine:
         return match_indexes
 
 
-    # FIXME: recalculating same matches
     @staticmethod
     def calculate_horizontal_matches(field: list[list[int]],
                                      row: int, size: int) -> set[tuple[int, int]]:
         matches: set[tuple[int, int]] = set()
+        count: int = 1
 
-        for i in range(size):
-            current: int = field[row][i]
-            part_of_matches: set[tuple[int, int]] = {(row, i)}
+        for i in range(1, size):
+            if (field[row][i] == field[row][i - 1]):
+                count += 1
+            else:
+                if (count >= GameEngine.MIN_BALLS_TO_MATCH):
+                    for j in range(i - count, i):
+                        matches.add((row, j))
 
-            for j in range(size):
-                if (i + j > size - 1):
-                    break
+                count = 1
 
-                next: int = field[row][i + j]
-
-                if (current == next):
-                    part_of_matches.add((row, i + j))
-                else:
-                    break
-
-            if (len(part_of_matches) >= GameEngine.MIN_BALLS_TO_MATCH):
-                matches = matches.union(part_of_matches)
+        if (count >= GameEngine.MIN_BALLS_TO_MATCH):
+            for j in range(size - count, size):
+                matches.add((row, j))
 
         return matches
-    
 
-    # FIXME: recalculating same matches
+
     @staticmethod
     def calculate_vertical_matches(field: list[list[int]],
                                    col: int, size: int) -> set[tuple[int, int]]:
         matches: set[tuple[int, int]] = set()
+        count: int = 1
 
-        for i in range(size):
-            current: int = field[i][col]
-            part_of_matches: set[tuple[int, int]] = {(i, col)}
+        for i in range(1, size):
+            if (field[i][col] == field[i - 1][col]):
+                count += 1
+            else:
+                if (count >= GameEngine.MIN_BALLS_TO_MATCH):
+                    for j in range(i - count, i):
+                        matches.add((j, col))
 
-            for j in range(size):
-                if (i + j > size - 1):
-                    break
+                count = 1
 
-                next: int = field[i + j][col]
-
-                if (current == next):
-                    part_of_matches.add((i + j, col))
-                else:
-                    break
-
-            if (len(part_of_matches) >= GameEngine.MIN_BALLS_TO_MATCH):
-                matches = matches.union(part_of_matches)
+        if (count >= GameEngine.MIN_BALLS_TO_MATCH):
+            for j in range(size - count, size):
+                matches.add((j, col))
 
         return matches
