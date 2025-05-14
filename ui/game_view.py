@@ -2,7 +2,7 @@ from typing import Callable
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor
-from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QPushButton, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QPushButton, QHBoxLayout, QLabel
 
 from logic.game_engine import GameEngine
 from logic.game_field import GameField
@@ -19,11 +19,12 @@ class GameView(QWidget):
 
         self.setup_table()
         self.setup_buttons(pause_callback)
+        self.setup_score_field()
 
         self.render_field()
 
         layout = QHBoxLayout()
-        layout.setContentsMargins(500, 0, 420, 8)
+        layout.setContentsMargins(380, 0, 380, 0)
 
         for widget in self.__widgets: 
             widget.setStyleSheet("font-size: 30px;")
@@ -82,6 +83,7 @@ class GameView(QWidget):
 
     def handle_cell_click(self, row: int, col: int) -> None:
         self.engine.make_turn(row, col)
+        self.update_score_field()
         self.render_field()
 
 
@@ -93,3 +95,13 @@ class GameView(QWidget):
         button_pause.setFixedWidth(80)
 
         self.__widgets.append(button_pause)
+
+    
+    def setup_score_field(self) -> None:
+        score_field: QLabel = QLabel()
+        score_field.setText(f"Счёт: {str(self.engine.score)}")
+
+        self.__widgets.append(score_field)
+
+    def update_score_field(self) -> None:
+        self.__widgets[2].setText(f"Счёт: {str(self.engine.score)}")
