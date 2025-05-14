@@ -2,7 +2,7 @@ from typing import Callable
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor
-from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QPushButton, QHBoxLayout, QLabel
+from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QAbstractItemView, QPushButton, QHBoxLayout, QLabel
 
 from logic.game_engine import GameEngine
 from logic.game_field import GameField
@@ -50,6 +50,7 @@ class GameView(QWidget):
             table.setColumnWidth(i, 90)
             table.setRowHeight(i, 90)
 
+        table.setSelectionMode(QAbstractItemView.NoSelection)
         table.cellClicked.connect(self.handle_cell_click)
 
         self.__widgets.append(table)
