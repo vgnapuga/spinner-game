@@ -11,11 +11,16 @@ from logic.game_field import GameField
 class GameView(QWidget):
 
 
-    def __init__(self, pause_callback: Callable):
+    def __init__(
+            self,
+            pause_callback: Callable,
+            is_time_limit: bool,
+            is_turn_limit: bool,
+            ):
         super().__init__()
 
-        self.engine: GameEngine = GameEngine()
-        self.__widgets: list[QWidget] = []
+        self.engine: GameEngine = GameEngine(is_time_limit, is_turn_limit)
+        self._widgets: list[QWidget] = []
 
         self.setup_table()
         self.setup_buttons(pause_callback)
@@ -26,7 +31,7 @@ class GameView(QWidget):
         layout = QHBoxLayout()
         layout.setContentsMargins(380, 0, 380, 0)
 
-        for widget in self.__widgets: 
+        for widget in self._widgets: 
             widget.setStyleSheet("font-size: 30px;")
 
             layout.addWidget(widget)
@@ -53,7 +58,7 @@ class GameView(QWidget):
         table.setSelectionMode(QAbstractItemView.NoSelection)
         table.cellClicked.connect(self.handle_cell_click)
 
-        self.__widgets.append(table)
+        self._widgets.append(table)
 
 
     def render_field(self) -> None:
@@ -66,10 +71,10 @@ class GameView(QWidget):
             5: "#FF00FF",
             6: "#00FFFF",
             7: "#FFA500",
-            8: "#800080"
+            8: "#800080",
         }
 
-        table: QTableWidget = self.__widgets[0]
+        table: QTableWidget = self._widgets[0]
         game_field: list[list[int]] = self.engine.game_field
 
         for i in range(GameField.SIZE): 
@@ -95,14 +100,14 @@ class GameView(QWidget):
         button_pause.setFixedHeight(900)
         button_pause.setFixedWidth(80)
 
-        self.__widgets.append(button_pause)
+        self._widgets.append(button_pause)
 
     
     def setup_score_field(self) -> None:
         score_field: QLabel = QLabel()
         score_field.setText(f"Счёт: {str(self.engine.score)}")
 
-        self.__widgets.append(score_field)
+        self._widgets.append(score_field)
 
     def update_score_field(self) -> None:
-        self.__widgets[2].setText(f"Счёт: {str(self.engine.score)}")
+        self._widgets[2].setText(f"Счёт: {str(self.engine.score)}")

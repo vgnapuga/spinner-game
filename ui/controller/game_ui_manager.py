@@ -10,20 +10,32 @@ from ui.pause_view import PauseView
 
 class GameUIManager(QStackedWidget):
 
-    def __init__(self, quit_callback: Callable):
+    def __init__(
+            self,
+            quit_callback: Callable,
+            ):
         super().__init__()
 
         self.setFixedSize(1920, 1080)
         self.setWindowTitle("Spinner game")
 
-        self.menu = MainMenu(start_game_callback=self.start_game,
-                             settings_callback=self.open_settings,
-                             quit_callback=quit_callback)
-
-        self.game = GameView(pause_callback=self.open_pause)
-        self.pause = PauseView(back=self.back_to_game, menu_callback=self.back_to_menu)
+        self.menu = MainMenu(
+            start_game_callback=self.start_game,
+            settings_callback=self.open_settings,
+            quit_callback=quit_callback
+            )
 
         self.settings = Settings(menu_callback=self.back_to_menu)
+        self.game = GameView(
+            pause_callback=self.open_pause,
+            is_time_limit=self.settings.is_time_limit,
+            is_turn_limit=self.settings.is_turn_limit,
+            )
+
+        self.pause = PauseView(
+            back=self.back_to_game,
+            menu_callback=self.back_to_menu,
+            )
 
         self.addWidget(self.menu)
         self.addWidget(self.game)

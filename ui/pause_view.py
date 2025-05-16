@@ -4,17 +4,21 @@ from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout
 
 class PauseView(QWidget):
 
-    def __init__(self, back: Callable, menu_callback: Callable):
+    def __init__(
+            self,
+            back: Callable,
+            menu_callback: Callable,
+            ):
         super().__init__()
 
-        self.__widgets: list[QWidget] = []
+        self._widgets: list[QWidget] = []
 
         self.setup_buttons(back, menu_callback)
 
         layout: QVBoxLayout = QVBoxLayout()
         layout.setContentsMargins(200, 200, 200, 200)
 
-        for widget in self.__widgets: 
+        for widget in self._widgets: 
             widget.setFixedHeight(80)
             widget.setStyleSheet("font-size: 30px;")
 
@@ -30,5 +34,5 @@ class PauseView(QWidget):
         button_back.clicked.connect(back)
         button_menu.clicked.connect(menu_callback)
 
-        self.__widgets.append(button_back)
-        self.__widgets.append(button_menu)
+        self._widgets.append(button_back)
+        self._widgets.append(button_menu)

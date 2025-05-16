@@ -11,7 +11,7 @@ class GameField:
 
 
     def __init__(self):
-        self.__field = [
+        self._field = [
             [random.randint(1, GameField.COLOR_COUNT) for i in range(GameField.SIZE)]
             for j in range(GameField.SIZE)
         ]
@@ -19,11 +19,16 @@ class GameField:
 
     @property
     def listed_field(self) -> list[list[int]]:
-        return [row[:] for row in self.__field]
+        return [row[:] for row in self._field]
     
 
-    def set_cell(self, row: int, col: int, value: int) -> None:
-        self.__field[row][col] = value
+    def set_cell(
+            self,
+            row: int,
+            col: int,
+            value: int
+            ) -> None:
+        self._field[row][col] = value
 
 
     def update_field(self, match_indexes: set[tuple[int]]) -> None:
@@ -36,6 +41,6 @@ class GameField:
 
             if (row != 0):
                 for i in range(row, 0, -1):
-                    self.__field[i][col] = self.__field[i - 1][col]
+                    self._field[i][col] = self._field[i - 1][col]
 
-            self.__field[0][col] = random.randint(1, self.COLOR_COUNT)
+            self._field[0][col] = random.randint(1, self.COLOR_COUNT)
