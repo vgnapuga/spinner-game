@@ -1,6 +1,6 @@
 from typing import final
 
-from logic.game_field import GameField
+from logic import GameField
 
 
 @final

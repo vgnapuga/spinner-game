@@ -4,8 +4,8 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QAbstractItemView, QPushButton, QHBoxLayout, QLabel, QVBoxLayout
 
-from logic.game_engine import GameEngine
-from logic.game_field import GameField
+from logic import GameEngine
+from logic import GameField
 from ui.styles.css_style import CssStyle
 
 
