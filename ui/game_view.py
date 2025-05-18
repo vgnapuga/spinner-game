@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QAbstractIt
 
 from logic import GameEngine
 from logic import GameField
-from ui.styles.css_style import CssStyle
+from ui.styles import CssStyle
 
 
 class GameView(QWidget):

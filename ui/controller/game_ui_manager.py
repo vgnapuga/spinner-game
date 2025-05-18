@@ -4,10 +4,10 @@ from enum import IntEnum
 
 from PyQt5.QtWidgets import QStackedWidget, QWidget
 
-from ui.main_menu import MainMenu
-from ui.game_view import GameView
-from ui.settings import Settings
-from ui.pause_view import PauseView
+from ui import MainMenu
+from ui import GameView
+from ui import Settings
+from ui import PauseView
 
 
 class ScreenIndex(IntEnum):

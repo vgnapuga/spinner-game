@@ -2,7 +2,7 @@ from typing import Callable
 
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton
 
-from ui.styles.css_style import CssStyle
+from ui.styles import CssStyle
 
 
 class MainMenu(QWidget):
