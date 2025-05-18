@@ -1,7 +1,7 @@
 from typing import Callable
 from enum import IntEnum
 
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QAbstractItemView, QPushButton, QHBoxLayout, QLabel, QVBoxLayout
 
@@ -57,6 +57,9 @@ class GameView(QWidget):
         layout_h.addLayout(layout_v)
 
         self.setLayout(layout_h)
+        
+        if (is_time_limit):
+            self.setup_timer()
 
 
     def setup_table(self) -> None:
@@ -108,6 +111,10 @@ class GameView(QWidget):
 
 
     def handle_cell_click(self, row: int, col: int) -> None:
+        if (self.engine.is_game_over()):
+            self.handle_game_over()
+            return
+
         self.engine.make_turn(row, col)
         self.update_turn_field()
         self.update_score_field()
@@ -136,13 +143,13 @@ class GameView(QWidget):
     
     def setup_score_field(self) -> None:
         score_field: QLabel = QLabel()
-        score_field.setText(f"Счёт: {str(self.engine.score)}")
+        score_field.setText(f"Счёт: {self.engine.score}")
 
         self._fields.append(score_field)
 
 
     def update_score_field(self) -> None:
-        self._fields[FieldIndex.SCORE_FIELD].setText(f"Счёт: {str(self.engine.score)}")
+        self._fields[FieldIndex.SCORE_FIELD].setText(f"Счёт: {self.engine.score}")
 
 
     def setup_time_field(self, is_time_limit: bool) -> None:
@@ -151,14 +158,14 @@ class GameView(QWidget):
         if (not is_time_limit):
             time_field.setText("Время: inf")
         else:
-            time_field.setText(f"Время: {str(self.engine.TIME_LIMIT)}")
+            time_field.setText(f"Время: {self.engine.TIME_LIMIT}")
 
         self._fields.append(time_field)
 
 
     #TODO: realization    
     def update_time_field(self) -> None:
-        pass
+        self._fields[FieldIndex.TIME_FIELD].setText(f"Время: {self.engine.time_left}")
 
 
     def setup_turn_field(self, is_turn_limit: bool) -> None:
@@ -167,10 +174,29 @@ class GameView(QWidget):
         if (not is_turn_limit):
             turn_field.setText("Ходы: inf")
         else:
-            turn_field.setText(f"Ходы: {str(self.engine.TURN_LIMIT)}")
+            turn_field.setText(f"Ходы: {self.engine.TURN_LIMIT}")
 
         self._fields.append(turn_field)
 
 
     def update_turn_field(self) -> None:
         self._fields[FieldIndex.TURNS_FIELD].setText(f"Ходы: {self.engine.turns_left}")
+
+
+    def setup_timer(self) -> None:
+        self.timer: QTimer = QTimer()
+
+        self.timer.timeout.connect(self.tick_timer)
+        self.timer.start(1000)
+
+
+    def tick_timer(self) -> None:
+        self.engine.decrement_time()
+        self.update_time_field()
+
+        if (self.engine.is_game_over()):
+            self.handle_game_over()
+
+
+    def handle_game_over(self) -> None:
+        pass

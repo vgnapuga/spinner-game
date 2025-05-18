@@ -47,6 +47,11 @@ class GameEngine:
     
 
     @property
+    def time_left(self) -> int:
+        return self._time_left
+    
+
+    @property
     def turns_left(self) -> int:
         return self._turns_left
 
@@ -55,7 +60,7 @@ class GameEngine:
         if (not GameEngine.is_valid_turn(row, col)):
             return
         
-        if (self._turns_left < GameEngine.NO_LIMIT):
+        if (self._turns_left != GameEngine.NO_LIMIT):
             self._turns_left -= 1
         
         game_field: list[list[int]] = self._game_field.listed_field
@@ -96,6 +101,10 @@ class GameEngine:
             return
 
         self._score += len(self._match_indexes) * self.SCORE_COEFFICIENT
+
+
+    def decrement_time(self) -> None:
+        self._time_left -= 1
 
 
     def calculate_match_indexes(self) -> set[tuple[int, int]]:
