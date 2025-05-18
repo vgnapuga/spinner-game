@@ -1,11 +1,21 @@
 from typing import Callable
 
+from enum import IntEnum
+
 from PyQt5.QtWidgets import QStackedWidget, QWidget
 
 from ui.main_menu import MainMenu
 from ui.game_view import GameView
 from ui.settings import Settings
 from ui.pause_view import PauseView
+
+
+class ScreenIndex(IntEnum):
+
+    MAIN_MENU = 0
+    SETTINGS = 1
+    GAME_VIEW = 2
+    PAUSE_VIEW = 3
 
 
 class GameUIManager(QStackedWidget):
@@ -49,8 +59,8 @@ class GameUIManager(QStackedWidget):
     def setup_game_view(self) -> None:
         game = GameView(
             pause_callback=self.open_pause,
-            is_time_limit=self._widgets[1].is_time_limit,
-            is_turn_limit=self._widgets[1].is_turn_limit,
+            is_time_limit=self._widgets[ScreenIndex.SETTINGS].is_time_limit,
+            is_turn_limit=self._widgets[ScreenIndex.SETTINGS].is_turn_limit,
             )
         
         self._widgets.append(game)
@@ -66,43 +76,43 @@ class GameUIManager(QStackedWidget):
 
 
     def start_game(self) -> None:
-        settings: QWidget = self._widgets[1]
+        settings: QWidget = self._widgets[ScreenIndex.SETTINGS]
 
-        if (self._widgets[2] == None):
+        if (self._widgets[ScreenIndex.GAME_VIEW] == None):
             game = GameView(
                 pause_callback=self.open_pause,
                 is_time_limit=settings.is_time_limit,
                 is_turn_limit=settings.is_turn_limit,
             )
 
-            self._widgets[2] = game
+            self._widgets[ScreenIndex.GAME_VIEW] = game
             self.addWidget(game)
 
-        self.setCurrentWidget(self._widgets[2])
+        self.setCurrentWidget(self._widgets[ScreenIndex.GAME_VIEW])
 
 
     def open_settings(self) -> None:
-        settings: QWidget = self._widgets[1]
+        settings: QWidget = self._widgets[ScreenIndex.SETTINGS]
 
         self.setCurrentWidget(settings)
 
 
     def back_to_menu(self) -> None:
-        if (not self._widgets[2] == None):
-            self.removeWidget(self._widgets[2])
-            self._widgets[2].deleteLater()
-            self._widgets[2] = None
+        if (not self._widgets[ScreenIndex.GAME_VIEW] == None):
+            self.removeWidget(self._widgets[ScreenIndex.GAME_VIEW])
+            self._widgets[ScreenIndex.GAME_VIEW].deleteLater()
+            self._widgets[ScreenIndex.GAME_VIEW] = None
 
-        self.setCurrentWidget(self._widgets[0])
+        self.setCurrentWidget(self._widgets[ScreenIndex.MAIN_MENU])
 
 
     def open_pause(self) -> None:
-        pause: QWidget = self._widgets[3]
+        pause: QWidget = self._widgets[ScreenIndex.PAUSE_VIEW]
 
         self.setCurrentWidget(pause)
 
 
     def back_to_game(self) -> None:
-        game: QWidget = self._widgets[2]
+        game: QWidget = self._widgets[ScreenIndex.GAME_VIEW]
 
         self.setCurrentWidget(game)
