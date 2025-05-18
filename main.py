@@ -3,7 +3,7 @@ import os
 
 from PyQt5.QtWidgets import QApplication
 
-from ui.controller.game_ui_manager import GameUIManager
+from ui.controller import GameUIManager
 
 
 def main() -> None:
