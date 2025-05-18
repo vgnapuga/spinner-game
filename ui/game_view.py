@@ -1,4 +1,5 @@
 from typing import Callable
+from enum import IntEnum
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor
@@ -7,6 +8,13 @@ from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QAbstractIt
 from logic import GameEngine
 from logic import GameField
 from ui.styles import CssStyle
+
+
+class FieldIndex(IntEnum):
+
+    SCORE_FIELD = 0
+    TIME_FIELD = 1
+    TURNS_FIELD = 2
 
 
 class GameView(QWidget):
@@ -27,7 +35,7 @@ class GameView(QWidget):
         self.setup_table()
         self.render_field()
 
-        self.setup_buttons(pause_callback)
+        self.setup_pause_button(pause_callback)
 
         self.setup_fields(is_time_limit, is_turn_limit)
 
@@ -101,11 +109,12 @@ class GameView(QWidget):
 
     def handle_cell_click(self, row: int, col: int) -> None:
         self.engine.make_turn(row, col)
+        self.update_turn_field()
         self.update_score_field()
         self.render_field()
 
 
-    def setup_buttons(self, pause_callback: Callable) -> None:
+    def setup_pause_button(self, pause_callback: Callable) -> None:
         button_pause: QPushButton = QPushButton("П\nа\nу\nз\nа")
         button_pause.clicked.connect(pause_callback)
 
@@ -133,7 +142,7 @@ class GameView(QWidget):
 
 
     def update_score_field(self) -> None:
-        self._fields[0].setText(f"Счёт: {str(self.engine.score)}")
+        self._fields[FieldIndex.SCORE_FIELD].setText(f"Счёт: {str(self.engine.score)}")
 
 
     def setup_time_field(self, is_time_limit: bool) -> None:
@@ -146,7 +155,8 @@ class GameView(QWidget):
 
         self._fields.append(time_field)
 
-    
+
+    #TODO: realization    
     def update_time_field(self) -> None:
         pass
 
@@ -163,4 +173,4 @@ class GameView(QWidget):
 
 
     def update_turn_field(self) -> None:
-        pass
+        self._fields[FieldIndex.TURNS_FIELD].setText(f"Ходы: {self.engine.turns_left}")

@@ -7,24 +7,26 @@ from logic import GameField
 class GameEngine:
 
     SCORE_COEFFICIENT: int = 10
+
     MIN_BALLS_TO_MATCH: int = 3
-    MAX_BALLS_TO_MATCH: int = 5
+
     TIME_LIMIT: int = 60
     TURN_LIMIT: int = 50
+    NO_LIMIT: int = 1_000_000
 
 
     def __init__(
             self,
-            is_time_limit: bool,
-            is_turn_limit: bool,
+            is_time_left: bool,
+            is_turns_left: bool,
             ):
         self._game_field: GameField = GameField()
         self._match_indexes: set[tuple[int, int]] = self.calculate_match_indexes()
 
         self._score: int = 0
 
-        self._is_time_limit: bool = is_time_limit
-        self._is_turn_limit: bool = is_turn_limit
+        self._time_left: int = GameEngine.TIME_LIMIT if (is_time_left) else GameEngine.NO_LIMIT
+        self._turns_left: int = GameEngine.TURN_LIMIT if (is_turns_left) else GameEngine.NO_LIMIT
 
         self.update_all()
 
@@ -42,21 +44,19 @@ class GameEngine:
     @property
     def score(self) -> int:
         return self._score
-
-
-    @property
-    def is_time_limit(self) -> bool:
-        return self.is_time_limit
-
+    
 
     @property
-    def is_turn_limit(self) -> bool:
-        return self._is_turn_limit
+    def turns_left(self) -> int:
+        return self._turns_left
 
 
     def make_turn(self, row:int, col:int) -> None:
         if (not GameEngine.is_valid_turn(row, col)):
             return
+        
+        if (self._turns_left < GameEngine.NO_LIMIT):
+            self._turns_left -= 1
         
         game_field: list[list[int]] = self._game_field.listed_field
 
@@ -160,3 +160,13 @@ class GameEngine:
                 matches.add((j, col))
 
         return matches
+    
+
+    def is_game_over(self) -> bool:
+        if (
+            self._time_left == 0 or
+            self._turns_left == 0
+            ):
+            return True
+        
+        return False
