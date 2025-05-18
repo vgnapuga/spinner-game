@@ -2,6 +2,9 @@ from typing import Callable
 
 from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout
 
+from ui.styles.css_style import CssStyle
+
+
 class PauseView(QWidget):
 
     def __init__(
@@ -20,7 +23,7 @@ class PauseView(QWidget):
 
         for widget in self._widgets: 
             widget.setFixedHeight(80)
-            widget.setStyleSheet("font-size: 30px;")
+            CssStyle.apply_font_size(widget)
 
             layout.addWidget(widget)
 

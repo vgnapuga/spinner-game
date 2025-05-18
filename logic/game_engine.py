@@ -1,6 +1,6 @@
-from logic.game_field import GameField
-
 from typing import final
+
+from logic.game_field import GameField
 
 
 @final
@@ -9,6 +9,8 @@ class GameEngine:
     SCORE_COEFFICIENT: int = 10
     MIN_BALLS_TO_MATCH: int = 3
     MAX_BALLS_TO_MATCH: int = 5
+    TIME_LIMIT: int = 60
+    TURN_LIMIT: int = 50
 
 
     def __init__(
@@ -17,8 +19,12 @@ class GameEngine:
             is_turn_limit: bool,
             ):
         self._game_field: GameField = GameField()
-        self._score: int = 0
         self._match_indexes: set[tuple[int, int]] = self.calculate_match_indexes()
+
+        self._score: int = 0
+
+        self._is_time_limit: bool = is_time_limit
+        self._is_turn_limit: bool = is_turn_limit
 
         self.update_all()
 
@@ -29,13 +35,23 @@ class GameEngine:
 
 
     @property
+    def match_indexes(self) -> set[tuple[int, int]]:
+        return self._match_indexes.copy()
+    
+
+    @property
     def score(self) -> int:
         return self._score
 
 
     @property
-    def match_indexes(self) -> set[tuple[int, int]]:
-        return self._match_indexes.copy()
+    def is_time_limit(self) -> bool:
+        return self.is_time_limit
+
+
+    @property
+    def is_turn_limit(self) -> bool:
+        return self._is_turn_limit
 
 
     def make_turn(self, row:int, col:int) -> None:

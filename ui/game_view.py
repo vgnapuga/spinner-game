@@ -2,10 +2,11 @@ from typing import Callable
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor
-from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QAbstractItemView, QPushButton, QHBoxLayout, QLabel
+from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QAbstractItemView, QPushButton, QHBoxLayout, QLabel, QVBoxLayout
 
 from logic.game_engine import GameEngine
 from logic.game_field import GameField
+from ui.styles.css_style import CssStyle
 
 
 class GameView(QWidget):
@@ -21,22 +22,33 @@ class GameView(QWidget):
 
         self.engine: GameEngine = GameEngine(is_time_limit, is_turn_limit)
         self._widgets: list[QWidget] = []
+        self._fields: list[QLabel] = []
 
         self.setup_table()
-        self.setup_buttons(pause_callback)
-        self.setup_score_field()
-
         self.render_field()
 
-        layout = QHBoxLayout()
-        layout.setContentsMargins(380, 0, 380, 0)
+        self.setup_buttons(pause_callback)
+
+        self.setup_fields(is_time_limit, is_turn_limit)
+
+        CssStyle.apply_font_size(self._widgets)
+        CssStyle.apply_font_size(self._fields)
+
+        layout_h = QHBoxLayout()
+        layout_h.setContentsMargins(380, 0, 380, 0)
 
         for widget in self._widgets: 
-            widget.setStyleSheet("font-size: 30px;")
+            layout_h.addWidget(widget)
 
-            layout.addWidget(widget)
+        layout_v = QVBoxLayout()
+        layout_v.setContentsMargins(0, 300, 0, 300)
 
-        self.setLayout(layout)
+        for field in self._fields:
+            layout_v.addWidget(field)
+
+        layout_h.addLayout(layout_v)
+
+        self.setLayout(layout_h)
 
 
     def setup_table(self) -> None:
@@ -102,12 +114,53 @@ class GameView(QWidget):
 
         self._widgets.append(button_pause)
 
+
+    def setup_fields(
+            self,
+            is_time_limit: bool,
+            is_turn_limit: bool,
+            ) -> None:
+        self.setup_score_field()
+        self.setup_time_field(is_time_limit)
+        self.setup_turn_field(is_turn_limit)
+
     
     def setup_score_field(self) -> None:
         score_field: QLabel = QLabel()
         score_field.setText(f"Счёт: {str(self.engine.score)}")
 
-        self._widgets.append(score_field)
+        self._fields.append(score_field)
+
 
     def update_score_field(self) -> None:
-        self._widgets[2].setText(f"Счёт: {str(self.engine.score)}")
+        self._fields[0].setText(f"Счёт: {str(self.engine.score)}")
+
+
+    def setup_time_field(self, is_time_limit: bool) -> None:
+        time_field: QLabel = QLabel()
+
+        if (not is_time_limit):
+            time_field.setText("Время: inf")
+        else:
+            time_field.setText(f"Время: {str(self.engine.TIME_LIMIT)}")
+
+        self._fields.append(time_field)
+
+    
+    def update_time_field(self) -> None:
+        pass
+
+
+    def setup_turn_field(self, is_turn_limit: bool) -> None:
+        turn_field: QLabel = QLabel()
+
+        if (not is_turn_limit):
+            turn_field.setText("Ходы: inf")
+        else:
+            turn_field.setText(f"Ходы: {str(self.engine.TURN_LIMIT)}")
+
+        self._fields.append(turn_field)
+
+
+    def update_turn_field(self) -> None:
+        pass

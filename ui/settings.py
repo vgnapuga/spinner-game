@@ -2,6 +2,8 @@ from typing import Callable
 
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QCheckBox
 
+from ui.styles.css_style import CssStyle
+
 
 class Settings(QWidget):
 
@@ -26,7 +28,7 @@ class Settings(QWidget):
 
         for widget in self._widgets:
             widget.setFixedHeight(80)
-            widget.setStyleSheet("font-size: 30px;")
+            CssStyle.apply_font_size(widget)
 
             layout.addWidget(widget)
 
