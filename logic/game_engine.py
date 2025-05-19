@@ -172,10 +172,4 @@ class GameEngine:
     
 
     def is_game_over(self) -> bool:
-        if (
-            self._time_left == 0 or
-            self._turns_left == 0
-            ):
-            return True
-        
-        return False
+        return self._time_left == 0 or self._turns_left == 0
