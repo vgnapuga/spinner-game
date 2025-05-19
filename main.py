@@ -8,13 +8,9 @@ from ui.controller import GameUIManager
 
 def main() -> None:
     app: QApplication = QApplication(sys.argv)
-    window: GameUIManager = GameUIManager(quit_callback=quit_application)
+    window: GameUIManager = GameUIManager(quit_callback=QApplication.quit())
     window.show()
     sys.exit(app.exec_())
-
-
-def quit_application() -> None:
-    QApplication.quit()
 
 
 if (__name__ == "__main__"):
