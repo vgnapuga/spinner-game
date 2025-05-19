@@ -23,6 +23,7 @@ class GameView(QWidget):
     def __init__(
             self,
             pause_callback: Callable,
+            endgame_callback: Callable,
             is_time_limit: bool,
             is_turn_limit: bool,
             ):
@@ -31,6 +32,8 @@ class GameView(QWidget):
         self.engine: GameEngine = GameEngine(is_time_limit, is_turn_limit)
         self._widgets: list[QWidget] = []
         self._fields: list[QLabel] = []
+
+        self._endgame_callback = endgame_callback
 
         self.setup_table()
         self.render_field()
@@ -163,7 +166,6 @@ class GameView(QWidget):
         self._fields.append(time_field)
 
 
-    #TODO: realization    
     def update_time_field(self) -> None:
         self._fields[FieldIndex.TIME_FIELD].setText(f"Время: {self.engine.time_left}")
 
@@ -199,4 +201,7 @@ class GameView(QWidget):
 
 
     def handle_game_over(self) -> None:
-        pass
+        if (self.engine.time_left != GameEngine.NO_LIMIT):
+            self.timer.stop()
+
+        self._endgame_callback(self.engine.score)

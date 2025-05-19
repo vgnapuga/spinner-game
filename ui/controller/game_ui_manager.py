@@ -4,10 +4,7 @@ from enum import IntEnum
 
 from PyQt5.QtWidgets import QStackedWidget, QWidget
 
-from ui import MainMenu
-from ui import GameView
-from ui import Settings
-from ui import PauseView
+from ui import MainMenu, Settings, GameView, PauseView, EndgameView
 
 
 class ScreenIndex(IntEnum):
@@ -16,6 +13,7 @@ class ScreenIndex(IntEnum):
     SETTINGS = 1
     GAME_VIEW = 2
     PAUSE_VIEW = 3
+    ENDGAME_VIEW = 4
 
 
 class GameUIManager(QStackedWidget):
@@ -55,10 +53,11 @@ class GameUIManager(QStackedWidget):
 
         self._widgets.append(settings)
 
-
-    def setup_game_view(self) -> None:
+    
+    def setup_game_view(self) -> GameView:
         game = GameView(
             pause_callback=self.open_pause,
+            endgame_callback=self.open_endgame,
             is_time_limit=self._widgets[ScreenIndex.SETTINGS].is_time_limit,
             is_turn_limit=self._widgets[ScreenIndex.SETTINGS].is_turn_limit,
             )
@@ -81,6 +80,7 @@ class GameUIManager(QStackedWidget):
         if (self._widgets[ScreenIndex.GAME_VIEW] == None):
             game = GameView(
                 pause_callback=self.open_pause,
+                endgame_callback=self.open_endgame,
                 is_time_limit=settings.is_time_limit,
                 is_turn_limit=settings.is_turn_limit,
             )
@@ -98,7 +98,7 @@ class GameUIManager(QStackedWidget):
 
 
     def back_to_menu(self) -> None:
-        if (not self._widgets[ScreenIndex.GAME_VIEW] == None):
+        if (self._widgets[ScreenIndex.GAME_VIEW] != None):
             self.removeWidget(self._widgets[ScreenIndex.GAME_VIEW])
             self._widgets[ScreenIndex.GAME_VIEW].deleteLater()
             self._widgets[ScreenIndex.GAME_VIEW] = None
@@ -116,3 +116,13 @@ class GameUIManager(QStackedWidget):
         game: QWidget = self._widgets[ScreenIndex.GAME_VIEW]
 
         self.setCurrentWidget(game)
+
+
+    def open_endgame(self, score: int) -> None:
+        endgame = EndgameView(
+            self.back_to_menu,
+            score,
+        )
+
+        self.addWidget(endgame)
+        self.setCurrentWidget(endgame)
