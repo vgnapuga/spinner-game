@@ -8,6 +8,7 @@ class GameField:
 
     SIZE: int = 10
     COLOR_COUNT: int = 8
+    EMPTY_CELL: int = 0
 
 
     def __init__(self):
@@ -28,6 +29,13 @@ class GameField:
             col: int,
             value: int
             ) -> None:
+        if not (0 <= row < GameField.SIZE and
+                0 <= col < GameField.SIZE):
+            raise IndexError("Cell position out of bounds")
+        
+        if not (GameField.EMPTY_CELL <= value < GameField.COLOR_COUNT):
+            raise ValueError("Cell value incorrect")
+
         self._field[row][col] = value
 
 
@@ -40,7 +48,7 @@ class GameField:
             col: int = part_of_match[1]
 
             if (row != 0):
-                for i in range(row, 0, -1):
-                    self._field[i][col] = self._field[i - 1][col]
+                for current_row in range(row, 0, -1):
+                    self._field[current_row][col] = self._field[current_row - 1][col]
 
             self._field[0][col] = random.randint(1, self.COLOR_COUNT)
