@@ -54,7 +54,7 @@ class GameUIManager(QStackedWidget):
         self._widgets.append(settings)
 
     
-    def setup_game_view(self) -> GameView:
+    def setup_game_view(self) -> None:
         game = GameView(
             pause_callback=self.open_pause,
             endgame_callback=self.open_endgame,
