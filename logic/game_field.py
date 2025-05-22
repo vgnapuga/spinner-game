@@ -33,7 +33,7 @@ class GameField:
                 0 <= col < GameField.SIZE):
             raise IndexError("Cell position out of bounds")
         
-        if not (GameField.EMPTY_CELL <= value < GameField.COLOR_COUNT):
+        if not (GameField.EMPTY_CELL <= value <= GameField.COLOR_COUNT):
             raise ValueError("Cell value incorrect")
 
         self._field[row][col] = value
